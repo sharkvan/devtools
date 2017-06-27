@@ -2,15 +2,20 @@ execute pathogen#infect()
 
 filetype on
 filetype plugin indent on
-syntax on
+syntax enable
 set ai
 set ruler
 set nowrap
+set autoindent
 set tabstop=8
 set softtabstop=0
 set expandtab
 set shiftwidth=4
 set smarttab
+set number
+set cursorline
+set showmatch
+set statusline=%t\ %l,%v
 set shellcmdflag=-ic
 
 " Nerdtree settings
@@ -30,14 +35,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 1
 let g:airline#extensions#syntastic#enabled = 1
 
-" elm-vim settings
-let g:polyglot_disabled = ['elm']
-let g:elm_detailed_complete = 1
-let g:elm_format_autosave = 1
-let g:elm_syntastic_show_warnings = 1
-let g:elm_setup_keybindings = 0
-
 " YouCompleteMe
 let g:ycm_semantic_triggers = {
-    \ 'elm' : ['.'],
     \}

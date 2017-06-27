@@ -1,14 +1,12 @@
-FROM centos:centos7
+FROM alpine:latest
 
 MAINTAINER Tim Schruben <tim.schruben@gmail.com>
 
-ENV USER dev
-ENV HOME /home/$USER
+ENV HOME /home/root
+ENV LC_ALL en_US.utf-8
+ENV LANG $LC_ALL
 
-RUN adduser $USER
-RUN echo "$USER  ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
-
-RUN yum install -y epel-release \
+RUN apk add --no-cache \
                     vim \
                     git \
                     tree \
@@ -18,21 +16,27 @@ RUN yum install -y epel-release \
                     less \
                     sudo \
                     ctags \
-                    libevent-devel \
+                    libevent-dev \
                     gcc \
-                    ncurses-devel \
-                    make
+                    ncurses-dev \
+                    make \
+                    g++ \
+                    tmux
 
-ADD https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz tmux.tar.gz
-RUN tar xvzf tmux.tar.gz && \
-    cd ./tmux-2.3 && \
-    ./configure && \
-    make && \
-    make install && \
-    cd ../ && \
-    rm -rf ./tmux-2.3
-
-USER $USER
 ADD dotfiles/ $HOME
+ADD vimrc $HOME/.vimrc
 
+RUN mkdir -p $HOME/.tmux/plugins && \
+    cd $HOME/.tmux/plugins && \
+    git clone --depth 1 --recursive https://github.com/tmux-plugins/tmux-continuum.git && \
+    git clone --depth 1 https://github.com/tmux-plugins/tmux-resurrect.git && \
+    git clone --depth 1 https://github.com/tmux-plugins/tpm.git && \
+    git clone --depth 1 --recursive https://github.com/tpope/vim-obsession.git
+
+RUN mkdir -p $HOME/.vim/bundle && \
+    cd $HOME/.vim/bundle && \
+    git clone --depth 1 --recursive https://github.com/scrooloose/nerdtree.git && \
+    git clone --depth 1 --recursive https://github.com/vim-syntastic/syntastic.git && \
+    git clone --depth 1 --recursive https://github.com/tpope/vim-sensible.git && \
+    git clone --depth 1 --recursive https://github.com/sheerun/vim-polyglot.git
 
