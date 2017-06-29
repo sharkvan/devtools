@@ -50,6 +50,7 @@ RUN mkdir -p $HOME/.vim/bundle && \
 
 RUN apt-get install sudo && apt-get clean
 RUN echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
+RUN adduser dev sudo && adduser dev adm
 
 ENV LC_ALL C.UTF-8
 ENV LANG $LC_ALL
