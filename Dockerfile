@@ -48,6 +48,7 @@ RUN mkdir -p $HOME/.vim/bundle && \
     git clone --depth 1 --recursive https://github.com/sheerun/vim-polyglot.git && \
     git clone --depth 1 --recursive https://github.com/tpope/vim-obsession.git
 
+RUN apt-get install sudo && apt-get clean
 RUN echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
 ENV LC_ALL C.UTF-8
